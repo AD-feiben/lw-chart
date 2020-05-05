@@ -44,7 +44,7 @@ coming soon!
 
 ## Demo
 
-[Demo](https://ad-feiben.github.io/lw-chart)
+[Demo](https://www.fedevelop.cn/lw-chart/demo/index.html)
 
 ## Official Account
 
