@@ -4,6 +4,6 @@ a lightweight chart implemented by canvas.
 
 ---
 
-(Demo)[./demo/index.html]
+[Demo](./demo/index.html)
 
 
