@@ -201,8 +201,6 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
    * 重写合并参数方法，合并该类的特有的参数
    */
   protected mergeOptions (options?: T) {
-    // 调用父类合并参数方法，合并公共参数
-    super.mergeOptions(options);
     // 合并该类特有参数
     const defaultAxisStyle: LWChartAxisStyle = {
       lineColor: '#666',
@@ -227,6 +225,8 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     this.options = Object.assign({}, defaultOpt, this.options, options);
     const axisStyle = Object.assign({}, defaultAxisStyle, this.options.axisStyle, options?.axisStyle);
     this.options.axisStyle = axisStyle;
+    // 调用父类合并参数方法，合并公共参数
+    super.mergeOptions(options);
   }
 
   protected getPosY (val: number) {

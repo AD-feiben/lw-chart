@@ -1,6 +1,14 @@
 import Area from '../src/area';
 // import lwChart from 'lw-chart';
 // const Area = lwChart.Area;
+const xAxisData = [
+  '5-01', '5-02', '5-03', '5-04', '5-05', '5-06', '5-07',
+  '5-08', '5-09', '5-10', '5-11', '5-12', '5-13'
+];
+const yAxisData = [
+  [ 3, 5, 2, 4, 5 ],
+  [ 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2 ]
+];
 const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   title: 'Area',
   canvasPadding: [10, 20, 10, 10],
@@ -20,18 +28,10 @@ const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   },
   yAxisFormat: (val) => {
     return val.toFixed(2);
-  }
+  },
+  xAxisData,
+  yAxisData
 });
 
-const xAxisData = [
-  '5-01', '5-02', '5-03', '5-04', '5-05', '5-06', '5-07',
-  '5-08', '5-09', '5-10', '5-11', '5-12', '5-13'
-];
-const yAxisData = [
-  [ 3, 5, 2, 4, 5 ],
-  [ 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2 ]
-];
-
-chart.updateData(xAxisData, yAxisData);
 
 console.log(chart);

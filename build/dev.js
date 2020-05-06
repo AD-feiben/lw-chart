@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const chalk = require('chalk');
 const path = require('path');
-const port = '8080';
+const port = '8081';
 const attr = (str) => chalk.rgb(152, 195, 121)(str);
 const attrValue = (str) => chalk.rgb(97, 175, 239)(str);
 let isFirst = true;

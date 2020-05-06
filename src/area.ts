@@ -134,8 +134,6 @@ export default class Area extends Axis<AreaOptions> {
    * 重写合并参数方法，合并该类的特有的参数
    */
   protected mergeOptions(options?: AreaOptions) {
-    // 调用父类合并参数方法，合并公共参数
-    super.mergeOptions(options);
     // 合并该类特有参数
     const defaultOpt: AreaOptions = {
       areaLineColor: ['rgba(233, 28, 65, 1)'],
@@ -165,6 +163,8 @@ export default class Area extends Axis<AreaOptions> {
     };
     const resultStyle = Object.assign({}, defaultResultStyle, this.options.resultStyle);
     this.options.resultStyle = resultStyle;
+    // 调用父类合并参数方法，合并公共参数
+    super.mergeOptions(options);
   }
   /** 将尺寸位置相关参数乘以 dpi，避免高清屏下产生模糊 */
   protected setParamsWithDpi(): void {
