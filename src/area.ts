@@ -159,7 +159,7 @@ export default class Area extends Axis<AreaOptions> {
       size: 12,
       font: 'PingFangSC-Semibold PingFang SC',
       weight: 'normal',
-      x: 0,
+      x: (this.el?.offsetWidth || 30) - 30,
       y: this.options.titleStyle?.y || 20,
       color: '#666'
     };

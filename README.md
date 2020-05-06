@@ -49,7 +49,7 @@ lineChart.updateData(xAxisData, yAxisData);
 
 ## Document
 
-[Document](https://ad-feiben.github.io/lw-chart/docs/.vuepress/dist/index.html)
+[Document](https://ad-feiben.github.io/lw-chart/docs)
 
 ## Demo
 
