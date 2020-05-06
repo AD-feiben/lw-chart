@@ -1,8 +1,10 @@
+<center>
+  <img alt="lw-chart" src="./docs/.vuepress/public/imgs/lw-chart.png" width="120px">
+</center>
+
 # lw-chart
 
-a lightweight chart implemented by canvas.
-
----
+A lightweight chart implemented by canvas.
 
 <center>
 
@@ -47,7 +49,7 @@ lineChart.updateData(xAxisData, yAxisData);
 
 ## Document
 
-coming soon!
+[Document](https://ad-feiben.github.io/lw-chart/docs/.vuepress/dist/index.html)
 
 ## Demo
 

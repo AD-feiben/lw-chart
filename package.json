@@ -1,6 +1,6 @@
 {
   "name": "lw-chart",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A lightweight chart implemented by canvas",
   "homepage": "https://github.com/AD-feiben/lw-chart",
   "main": "./dist/index.js",
@@ -11,6 +11,8 @@
     "types"
   ],
   "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "dev": "node build/dev.js",
     "build-type": "rm -rf ./types/ && tsc --emitDeclarationOnly --declarationDir ./types",
     "build": "npm run build-type && node build/build.js",
@@ -47,9 +49,12 @@
     "progress-bar-webpack-plugin": "^2.1.0",
     "thread-loader": "^2.1.3",
     "typescript": "^3.8.3",
+    "vuepress": "^1.4.1",
     "webpack": "^4.43.0",
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "vuepress-plugin-run": "^1.0.1"
+  }
 }
