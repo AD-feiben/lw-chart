@@ -11,7 +11,8 @@ function resolve(dir) {
 const buildConfig  = {
   mode: 'production',
   entry: {
-    LWChart: resolve('src/index.ts'),
+    index: resolve('src/index.ts'),
+    LWChart: resolve('src/lw-chart.ts'),
     Axis: resolve('src/axis.ts'),
     Area: resolve('src/area.ts')
   },

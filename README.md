@@ -4,15 +4,22 @@ a lightweight chart implemented by canvas.
 
 ---
 
+<center>
+
+![license](https://img.shields.io/github/license/ad-feiben/lw-chart.svg)
+
+</center>
+
 ## Install
 
 ```bash
 $ npm i lw-chart
 ```
 
-## Use
+## Usage
 
 ```js
+// import { Area } from 'lw-chart';
 import Area from 'lw-chart/dist/Area.js';
 
 const xAxisData = [ '5-01', '5-02', '5-03', '5-04', '5-05', '5-06', '5-07' ];
@@ -44,12 +51,13 @@ coming soon!
 
 ## Demo
 
-[Demo](https://www.fedevelop.cn/lw-chart/demo/index.html)
+[Demo](https://ad-feiben.github.io/lw-chart/demo/index.html)
 
 ## Official Account
 
 微信公众号【前端develop】
 
-![前端develop](./imgs/official-account.jpg)
+![前端develop](https://ad-feiben.github.io/imgs/qrcode.png)
+
 
 

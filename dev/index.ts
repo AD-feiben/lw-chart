@@ -1,4 +1,6 @@
 import Area from '../src/area';
+// import lwChart from 'lw-chart';
+// const Area = lwChart.Area;
 const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   title: 'Area',
   canvasPadding: [10, 20, 10, 10],
@@ -18,8 +20,7 @@ const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   },
   yAxisFormat: (val) => {
     return val.toFixed(2);
-  },
-  areaShowDot: false
+  }
 });
 
 const xAxisData = [

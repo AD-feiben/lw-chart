@@ -1,4 +1,4 @@
-import LWChart from './index';
+import LWChart from './lw-chart';
 import { AxisOptions } from './utils/interfaces';
 export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     constructor(el: HTMLElement, options?: T);

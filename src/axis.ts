@@ -1,4 +1,4 @@
-import LWChart from './index';
+import LWChart from './lw-chart';
 import { AxisOptions, LWChartAxisStyle, IObj } from './utils/interfaces';
 import { isInBrowser, formatPadding } from './utils';
 
