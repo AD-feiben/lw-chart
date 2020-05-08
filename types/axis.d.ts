@@ -21,9 +21,6 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     protected mergeOptions(options?: T): void;
     protected getPosY(val: number): number;
     protected getPosX(index: number): number;
-    protected abstract init(options?: T): void;
     /** 数据初始化完成 */
     protected abstract afterInitData(): void;
-    forceUpdate(options?: T): void;
-    updateData(xAxisData?: string[], yAxisData?: number[][]): void;
 }

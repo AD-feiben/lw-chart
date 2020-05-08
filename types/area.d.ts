@@ -45,6 +45,8 @@ export default class Area extends Axis<AreaOptions> {
     protected afterInitData(): void;
     protected drawCanvas(): void;
     protected drawData(): void;
-    protected destroy(): void;
+    forceUpdate(options?: AreaOptions): void;
+    updateData(xAxisData?: string[], yAxisData?: number[][]): void;
+    destroy(): void;
 }
 export {};
