@@ -1,5 +1,5 @@
 <center>
-  <img alt="lw-chart" src="./docs/imgs/lw-chart.png" width="120px">
+  <img alt="lw-chart" src="https://ad-feiben.github.io/lw-chart-docs/docs/imgs/lw-chart.png" width="120px">
 </center>
 
 # lw-chart
