@@ -288,5 +288,5 @@ export default abstract class LWChart<T extends LWChartOptions> {
    * Remove event listeners, timers, etc
    * 移除事件监听、定时器等
    */
-  protected abstract destroy(): void;
+  public abstract destroy(): void;
 }

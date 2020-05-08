@@ -49,11 +49,11 @@ lineChart.updateData(xAxisData, yAxisData);
 
 ## Document
 
-[Document](https://ad-feiben.github.io/lw-chart/docs)
+[Document](https://ad-feiben.github.io/lw-chart-docs/docs)
 
 ## Demo
 
-[Demo](https://ad-feiben.github.io/lw-chart/demo/index.html)
+[Demo](https://ad-feiben.github.io/lw-chart-docs/docs/demo)
 
 ## Official Account
 

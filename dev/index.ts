@@ -30,7 +30,10 @@ const chart = new Area(document.querySelector('.chart') as HTMLElement, {
     return val.toFixed(2);
   },
   xAxisData,
-  yAxisData
+  yAxisData,
+  drawResult: () => {
+    console.log(this);
+  }
 });
 
 

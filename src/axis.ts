@@ -242,21 +242,6 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     const xAxisLength = this.xAxisData.length - 1;
     return startX + chartInnerWidth * (index / xAxisLength);
   }
-
-  protected abstract init(options?: T): void;
   /** 数据初始化完成 */
   protected abstract afterInitData(): void;
-
-  public forceUpdate (options?: T) {
-    this.init(options);
-  }
-  public updateData (xAxisData?: string[], yAxisData?: number[][]) {
-    if (xAxisData) {
-      this.options.xAxisData = xAxisData;
-    }
-    if (this.yAxisWidth) {
-      this.options.yAxisData = yAxisData;
-    }
-    this.initData();
-  }
 }

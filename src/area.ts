@@ -302,10 +302,23 @@ export default class Area extends Axis<AreaOptions> {
     }
   }
 
-  protected destroy(): void {
+  public forceUpdate (options?: AreaOptions) {
+    this.init(options);
+  }
+  public updateData (xAxisData?: string[], yAxisData?: number[][]) {
+    if (xAxisData) {
+      this.options.xAxisData = xAxisData;
+    }
+    if (this.yAxisWidth) {
+      this.options.yAxisData = yAxisData;
+    }
+    this.initData();
+  }
+
+  public destroy(): void {
     this.animationHandle && window.cancelAnimationFrame(this.animationHandle);
     this.handleMoveTimer && window.clearTimeout(this.handleMoveTimer);
     this.removeMoveHandler();
-    // throw new Error("Method not implemented.");
+    this.canvas && this.el.removeChild(this.canvas);
   }
 }

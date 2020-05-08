@@ -124,6 +124,6 @@ export interface AreaOptions extends AxisOptions {
   resultStyle?: LWChartTextStyle;
   /** 显示动画 */
   showAnimation?: boolean;
-  /** 动画执行时间 ms */
+  /** 动画执行时间 ms*/
   animationDuration?: number;
 }
