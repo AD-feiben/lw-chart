@@ -39,7 +39,7 @@ export default class Area extends Axis<AreaOptions> {
     if (showResult === false) return;
     if (typeof drawResult === 'function') {
       this.ctx.save();
-      drawResult.call(this, this.ctx, this.activeData);
+      drawResult.call(this, this.ctx, this.activeData, this.dpi);
       this.ctx.restore();
       return;
     }

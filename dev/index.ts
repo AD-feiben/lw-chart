@@ -31,8 +31,24 @@ const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   },
   xAxisData,
   yAxisData,
-  drawResult: () => {
-    console.log(this);
+  drawResult: function (ctx, data, dpi) {
+    const { group, xAxisVal, yAxisVal } = data;
+    const text = `第${group + 1}组数据: ${xAxisVal}-${yAxisVal}`;
+    // this 为 Area 实例
+    const size = 14 * dpi
+    const weight = 600;
+    const font = 'PingFangSC-Semibold PingFang SC';
+    const color = '#333';
+    const x = 400 * dpi
+    const y = 30 * dpi
+    const maxWidth = 120 * dpi
+    ctx.save();
+    ctx.textBaseline = 'top';
+    ctx.textAlign = 'end';
+    ctx.font = `${weight} ${size}px ${font}`;
+    ctx.fillStyle = color;
+    ctx.fillText(text, x, y, maxWidth);
+    ctx.restore();
   }
 });
 

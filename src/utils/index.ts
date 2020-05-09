@@ -95,16 +95,16 @@ export const getCurveList = function (pointList: IPos[]): ICurvePoint[] {
     const curY = curPoint.y;
     const nextX = nextPoint.x;
     const nextY = nextPoint.y;
-    const deltaX = Math.abs(nextX - curX);
+    const deltaX = Math.abs(nextX - curX)  * lenParam;
     return {
       start: curPoint,
       end: nextPoint,
       control1: {
-        x: curX + deltaX * lenParam,
+        x: curX + deltaX,
         y: curY
       },
       control2: {
-        x: nextX - deltaX * lenParam,
+        x: nextX - deltaX,
         y: nextY
       }
     };

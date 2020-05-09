@@ -109,7 +109,7 @@ export interface AreaOptions extends AxisOptions {
     /** 显示选中的数据 */
     showResult?: boolean;
     /** 自定义结果显示 */
-    drawResult?: (ctx: CanvasRenderingContext2D, data: IData) => void;
+    drawResult?: (ctx: CanvasRenderingContext2D, data: IData, dpi: number) => void;
     resultFormat?: (data: IData) => string;
     resultStyle?: LWChartTextStyle;
     /** 显示动画 */
