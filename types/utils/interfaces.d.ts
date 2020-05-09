@@ -84,6 +84,10 @@ export interface AxisOptions extends LWChartOptions {
     /** 坐标轴样式 */
     axisStyle?: LWChartAxisStyle;
 }
+export interface LWChartParameter {
+    dpi: number;
+    mousePosition: IPos;
+}
 export interface AreaOptions extends AxisOptions {
     /** 线条颜色 */
     areaLineColor?: string[];
@@ -109,7 +113,7 @@ export interface AreaOptions extends AxisOptions {
     /** 显示选中的数据 */
     showResult?: boolean;
     /** 自定义结果显示 */
-    drawResult?: (ctx: CanvasRenderingContext2D, data: IData, dpi: number) => void;
+    drawResult?: (ctx: CanvasRenderingContext2D, data: IData, chartParameter: LWChartParameter) => void;
     resultFormat?: (data: IData) => string;
     resultStyle?: LWChartTextStyle;
     /** 显示动画 */
