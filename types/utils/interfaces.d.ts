@@ -13,6 +13,10 @@ export interface IData {
     xAxisVal: string;
     /** y坐标值 */
     yAxisVal: number;
+    /** 数据点的 x坐标 */
+    x: number;
+    /** 数据点的 要坐标 */
+    y: number;
 }
 /** 坐标轴样式 */
 export interface LWChartAxisStyle {

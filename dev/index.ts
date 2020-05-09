@@ -33,7 +33,7 @@ const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   yAxisData,
   drawResult: function (ctx, data, chartParameter) {
     const { dpi, mousePosition, chartRect } = chartParameter;
-    const { group, xAxisVal, yAxisVal } = data;
+    const { group, xAxisVal, yAxisVal, y } = data;
     const text = `第${group + 1}组数据: ${xAxisVal}-${yAxisVal}`;
     const size = 14 * dpi
     const weight = 600;
@@ -48,7 +48,6 @@ const chart = new Area(document.querySelector('.chart') as HTMLElement, {
       textAlign = 'end'
       x = mousePosition.x - offsetX;
     }
-    const y = mousePosition.y;
     ctx.save();
     ctx.textBaseline = 'middle';
     ctx.textAlign = textAlign;

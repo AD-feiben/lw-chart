@@ -108,9 +108,11 @@ export default abstract class LWChart<T extends LWChartOptions> {
    */
   private addMoveHandler () {
     if (!this.canvas) return;
-    const eventType: keyof HTMLElementEventMap = isMobile ? 'touchmove' : 'mousemove';
+    const eventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
     this.removeMoveHandler();
-    on(this.canvas, eventType, this.handleMove.bind(this));
+    eventTypes.map(eventType => {
+      on(this.canvas, eventType, this.handleMove.bind(this));
+    });
   }
 
   /**
@@ -118,8 +120,10 @@ export default abstract class LWChart<T extends LWChartOptions> {
    * 移除 mouseMove 或 touchMove 事件监听
    */
   protected removeMoveHandler () {
-    const eventType: keyof HTMLElementEventMap = isMobile ? 'touchmove' : 'mousemove';
-    off(this.canvas, eventType, this.handleMove.bind(this));
+    const eventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
+    eventTypes.map(eventType => {
+      off(this.canvas, eventType, this.handleMove.bind(this));
+    });
   }
 
 

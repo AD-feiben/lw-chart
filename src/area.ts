@@ -100,7 +100,9 @@ export default class Area extends Axis<AreaOptions> {
             this.activeData = {
               group: i,
               xAxisVal: this.xAxisData[j],
-              yAxisVal: this.yAxisData[i][j]
+              yAxisVal: this.yAxisData[i][j],
+              x: item.x,
+              y: item.y
             };
 
             this.drawResult();
