@@ -80,7 +80,8 @@ export default abstract class LWChart<T extends LWChartOptions> {
     if (!this.canvas) return;
     if (isMobile) {
       const { top, left } = getVertexPosition(this.canvas);
-      const { pageX, pageY } = (event as TouchEvent).targetTouches[0];
+      const touch = (event as TouchEvent).changedTouches[0];
+      const { pageX, pageY } = touch as Touch;
       this.mousePosition = {
         x: (pageX - left) * this.dpi,
         y: (pageY - top) * this.dpi
