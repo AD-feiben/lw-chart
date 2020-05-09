@@ -32,20 +32,26 @@ const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   xAxisData,
   yAxisData,
   drawResult: function (ctx, data, chartParameter) {
-    const { dpi, mousePosition } = chartParameter;
+    const { dpi, mousePosition, chartRect } = chartParameter;
     const { group, xAxisVal, yAxisVal } = data;
     const text = `第${group + 1}组数据: ${xAxisVal}-${yAxisVal}`;
-    // this 为 Area 实例
     const size = 14 * dpi
     const weight = 600;
     const font = 'PingFangSC-Semibold PingFang SC';
     const color = '#333';
-    const x = mousePosition.x + 20 * dpi;
-    const y = mousePosition.y;
+    const offsetX = 20 * dpi;
     const maxWidth = 120 * dpi;
+
+    let textAlign: CanvasTextAlign = 'start';
+    let x = mousePosition.x + offsetX;
+    if (mousePosition.x + maxWidth + offsetX >= chartRect.endX) {
+      textAlign = 'end'
+      x = mousePosition.x - offsetX;
+    }
+    const y = mousePosition.y;
     ctx.save();
-    ctx.textBaseline = 'top';
-    ctx.textAlign = 'start';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = textAlign;
     ctx.font = `${weight} ${size}px ${font}`;
     ctx.fillStyle = color;
     ctx.fillText(text, x, y, maxWidth);

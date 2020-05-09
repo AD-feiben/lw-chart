@@ -93,10 +93,20 @@ export interface AxisOptions extends LWChartOptions {
   axisStyle?: LWChartAxisStyle;
 }
 
+export interface LWChartRect {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+  width: number;
+  height: number;
+}
 
 export interface LWChartParameter {
   dpi: number;
   mousePosition: IPos;
+  canvasRect: LWChartRect;
+  chartRect: LWChartRect;
 }
 
 export interface AreaOptions extends AxisOptions {

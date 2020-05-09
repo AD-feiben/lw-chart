@@ -84,9 +84,19 @@ export interface AxisOptions extends LWChartOptions {
     /** 坐标轴样式 */
     axisStyle?: LWChartAxisStyle;
 }
+export interface LWChartRect {
+    startX: number;
+    startY: number;
+    endX: number;
+    endY: number;
+    width: number;
+    height: number;
+}
 export interface LWChartParameter {
     dpi: number;
     mousePosition: IPos;
+    canvasRect: LWChartRect;
+    chartRect: LWChartRect;
 }
 export interface AreaOptions extends AxisOptions {
     /** 线条颜色 */

@@ -41,7 +41,23 @@ export default class Area extends Axis<AreaOptions> {
       this.ctx.save();
       drawResult.call(this, this.ctx, this.activeData, {
         dpi: this.dpi,
-        mousePosition: this.mousePosition
+        mousePosition: this.mousePosition,
+        canvasRect: {
+          startX: 0,
+          startY: 0,
+          endX: this.canvasWidth,
+          endY: this.canvasHeight,
+          width: this.canvasWidth,
+          height: this.canvasHeight
+        },
+        chartRect: {
+          startX: this.chartStartX,
+          startY: this.chartStartY,
+          endX: this.chartEndX,
+          endY: this.chartEndY,
+          width: this.chartWidth,
+          height: this.chartHeight
+        }
       });
       this.ctx.restore();
       return;
