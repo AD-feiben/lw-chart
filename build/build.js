@@ -4,18 +4,14 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
 const chalk = require('chalk');
+const entry = require('./getEntries');
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
 
 const buildConfig  = {
   mode: 'production',
-  entry: {
-    index: resolve('src/index.ts'),
-    LWChart: resolve('src/lw-chart.ts'),
-    Axis: resolve('src/axis.ts'),
-    Area: resolve('src/area.ts')
-  },
+  entry,
   output: {
     filename: '[name].js',
     path: resolve('dist'),
