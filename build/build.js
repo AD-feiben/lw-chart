@@ -1,4 +1,4 @@
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const baseConfig = require('./webpack.base.js');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
@@ -11,6 +11,12 @@ function resolve(dir) {
 
 const buildConfig  = {
   mode: 'production',
+  plugins: [
+    // new CleanWebpackPlugin()
+  ]
+};
+
+const umdWebpackConfig = merge({}, baseConfig, buildConfig, {
   entry,
   output: {
     filename: '[name].js',
@@ -18,13 +24,22 @@ const buildConfig  = {
     library: '[name]',
     libraryTarget: 'umd',
     libraryExport: 'default'
-  },
-  plugins: [
-    new CleanWebpackPlugin()
-  ]
-};
+  }
+});
 
-const webpackConfig = merge({}, baseConfig, buildConfig);
+const commonWebpackConfig = merge({}, baseConfig, buildConfig, {
+  entry: {
+    index: resolve('src/index.ts')
+  },
+  output: {
+    filename: 'index.common.js',
+    path: resolve('dist'),
+    libraryTarget: 'commonjs',
+  }
+});
+
+const webpackConfig = [umdWebpackConfig, commonWebpackConfig];
+
 webpack(webpackConfig, (err, stats) => {
   err && console.log(err);
   if (stats) {
