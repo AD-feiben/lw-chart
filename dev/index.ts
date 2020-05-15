@@ -6,8 +6,7 @@ const xAxisData = [
   '5-08', '5-09', '5-10', '5-11', '5-12', '5-13'
 ];
 const yAxisData = [
-  [ 3, 5, 2, 4, 5 ],
-  [ 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2 ]
+  [ 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, 14.6, ]
 ];
 const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   title: 'Area',
@@ -18,6 +17,7 @@ const chart = new Area(document.querySelector('.chart') as HTMLElement, {
   drawDataLength: 13,
   xAxisLength: 5,
   yAxisLength: 5,
+  yAxisMinVal: 0,
   areaDotStorkColor: ['rgba(180, 0, 0, 1)', 'rgba(0, 180, 0, 1)'],
   areaActiveDotFillColor: ['rgba(180, 0, 0, .3)', 'rgba(0, 180, 0, .3)'],
   areaLineColor: ['rgba(180, 0, 0, 1)', 'rgba(0, 180, 0, 1)'],

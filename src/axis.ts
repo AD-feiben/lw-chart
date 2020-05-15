@@ -25,9 +25,14 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     xAxisData = xAxisData || [];
     yAxisData = yAxisData || [];
     drawDataLength = drawDataLength || 7;
+    let optionsMinVal = this.options.yAxisMinVal;
+    let optionsMaxVal = this.options.yAxisMaxVal;
+    let optionsMinValIsNumber = typeof optionsMinVal === 'number';
+    let optionsMaxValIsNumber = typeof optionsMaxVal === 'number';
+
     /** 获取最大值及最小值 */
-    let maxValue = 0;
-    let minValue = 999999;
+    let maxValue = optionsMaxValIsNumber ? optionsMaxVal as number : 0;
+    let minValue = optionsMinValIsNumber ? optionsMinVal as number : 999999;
     this.xAxisData = xAxisData.slice(-drawDataLength);
 
     yAxisData.map((groupData, index) => {
@@ -44,13 +49,13 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     });
 
     if (minValue === maxValue) {
-      maxValue = minValue + 10;
+      const deltaVal = Math.max(5, maxValue * 0.1);
+      maxValue = maxValue + deltaVal;
+      minValue = minValue - deltaVal;
     }
 
-    // const deltaValue = maxValue - minValue;
-    /** 上下预留的空间 */
-    this.maxValue = maxValue;
-    this.minValue = minValue;
+    this.maxValue = optionsMaxValIsNumber ? optionsMaxVal as number : maxValue;
+    this.minValue = optionsMinValIsNumber ? optionsMinVal as number : minValue;
     this.afterInitData();
   }
 
@@ -93,7 +98,9 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     // x轴
     this.drawLine(xAxisPos.startX, xAxisPos.startY, xAxisPos.endX, xAxisPos.endY, style.lineWidth || 1, style.lineColor || '#666');
     // y轴
-    this.drawLine(yAxisPos.startX, yAxisPos.startY, yAxisPos.endX, yAxisPos.endY, style.lineWidth || 1, style.lineColor || '#666');
+    if (this.options.showYAxisAuxiliaryLine) {
+      this.drawLine(yAxisPos.startX, yAxisPos.startY, yAxisPos.endX, yAxisPos.endY, style.lineWidth || 1, style.lineColor || '#666');
+    }
     // 绘制坐标
     this.ctx.save();
     // 绘制x轴坐标
@@ -215,6 +222,7 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
       xAxisData: [],
       xAxisLength: 10,
       xAxisFormat: undefined,
+      showYAxisAuxiliaryLine: true,
       yAxisWidth: 30,
       yAxisData: [],
       yAxisLength: 10,

@@ -77,8 +77,14 @@ export interface AxisOptions extends LWChartOptions {
     xAxisLength?: number;
     /** x轴坐标格式化 */
     xAxisFormat?: (val: string) => string;
+    /** 显示 y 轴辅助线 */
+    showYAxisAuxiliaryLine?: boolean;
     /** y轴宽度 */
     yAxisWidth?: number;
+    /** y 轴最小值 */
+    yAxisMinVal?: number;
+    /** y 轴最大值 */
+    yAxisMaxVal?: number;
     /** y轴数据 */
     yAxisData?: number[][];
     /** y轴显示个数 */

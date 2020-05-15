@@ -245,6 +245,8 @@ export default abstract class LWChart<T extends LWChartOptions> {
    */
   protected drawTitle () {
     let { title, titleStyle } = this.options;
+    if (!this.ctx || !title) return;
+
     const style: LWChartTextStyle = Object.assign({}, titleStyle);
     const dpiOpts: Array<keyof LWChartTextStyle> = ['x', 'y', 'size', 'maxWidth'];
     dpiOpts.map(key => {
@@ -253,7 +255,6 @@ export default abstract class LWChart<T extends LWChartOptions> {
         (style as IObj<number>)[key] = originVal * this.dpi;
       }
     });
-    if (!this.ctx || !title) return;
     this.ctx.save();
     this.ctx.textBaseline = 'top';
     this.ctx.textAlign = 'start';
