@@ -130,13 +130,13 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     }
 
     this.ctx.textBaseline = 'middle';
-    this.ctx.textAlign = 'left';
+    this.ctx.textAlign = 'right';
     if (this.yAxisWidth >= 0) {
       const step = (this.maxValue - this.minValue) / yAxisLength;
       for (let i = 0; i <= yAxisLength; i++) {
         const markerVal = step * i + this.minValue;
         const markerValStr = typeof yAxisFormat === 'function' ? yAxisFormat(markerVal) : markerVal + '';
-        const posX = this.chartStartX - this.yAxisWidth;
+        const posX = this.chartStartX - (10 * this.dpi);
         const posY = this.getPosY(markerVal);
         this.drawText(markerValStr, {
           x: posX,
@@ -145,7 +145,7 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
           size: style.size,
           font: style.font,
           weight: 'normal',
-          maxWidth: this.yAxisWidth
+          maxWidth: this.yAxisWidth - 10 * this.dpi
         });
         if (i > 0) {
           this.drawLine(xAxisPos.startX, posY, xAxisPos.endX, posY, style.lineWidth || 1, style.lineColor || '#666');
