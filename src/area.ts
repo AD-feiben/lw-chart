@@ -80,11 +80,12 @@ export default class Area extends Axis<AreaOptions> {
 
   protected drawDot () {
     if (!this.ctx || this.pointList.length <= 0) return;
+    this.activeData = {} as IData;
     const { x, y } = this.mousePosition;
+    const areaDotFillColor = this.options.areaDotFillColor || ['#fff'];
+    const areaDotStorkColor = this.options.areaDotStorkColor || ['rgba(233, 28, 65, 1)'];
+    const areaActiveDotFillColor = this.options.areaActiveDotFillColor || ['rgba(233, 28, 65, 0.3)'];
     for (let i = 0; i < this.pointList.length; i++) {
-      const areaDotFillColor = this.options.areaDotFillColor || ['#fff'];
-      const areaDotStorkColor = this.options.areaDotStorkColor || ['rgba(233, 28, 65, 1)'];
-      const areaActiveDotFillColor = this.options.areaActiveDotFillColor || ['rgba(233, 28, 65, 0.3)'];
       this.ctx.save();
       this.ctx.fillStyle = areaDotFillColor[i] || areaDotFillColor[areaDotFillColor.length - 1];
       this.ctx.strokeStyle = areaDotStorkColor[i] || areaDotStorkColor[areaDotStorkColor.length - 1] ;
@@ -93,7 +94,10 @@ export default class Area extends Axis<AreaOptions> {
       for (let j = 0; j < pointListItem.length; j++) {
         const item = pointListItem[j];
         drawActiveDot: {
+          // 存在选中点，不再绘制新的选中点
+          if (Object.keys(this.activeData).length > 0) break drawActiveDot;
           if (y >= this.chartStartY && y <= this.chartEndY && x >= item.xRange[0] && x <= item.xRange[1]) {
+            // 多组线条鼠标位置需要在 Y 轴范围内
             if (this.yAxisData.length > 1) {
               if (y < item.yRange[0] || y > item.yRange[1]) break drawActiveDot;
             }
@@ -107,6 +111,7 @@ export default class Area extends Axis<AreaOptions> {
 
             this.drawResult();
             if (this.options.areaShowDot === false) break drawActiveDot;
+            // 绘制选中的圆点
             this.ctx.save();
             this.ctx.beginPath();
             this.ctx.fillStyle = areaActiveDotFillColor[i] || areaActiveDotFillColor[length - 1];
@@ -117,6 +122,7 @@ export default class Area extends Axis<AreaOptions> {
           }
         }
         if (this.options.areaShowDot === false) continue;
+        // 绘制圆点
         this.ctx.beginPath();
         this.ctx.arc(item.x, item.y, this.areaDotRadius, 0, Math.PI * 2);
         this.ctx.fill();
