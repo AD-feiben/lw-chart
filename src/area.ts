@@ -139,7 +139,7 @@ export default class Area extends Axis<AreaOptions> {
     this.handleMoveTimer = window.setTimeout(() => {
       // 鼠标移动时重绘canvas
       this.drawCanvas();
-    }, 20);
+    }, 10);
   }
 
   /**

@@ -108,15 +108,16 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     this.ctx.textAlign = 'center';
     if (this.xAxisHeight >= 0) {
       const len = this.xAxisData.length;
+      const lastIndex = len - 1;
       let groupNum = len / xAxisLength;
       groupNum = groupNum < 2 ? 1 : Math.ceil(groupNum);
       for (let i = 0; i < len; i++) {
         if (len > xAxisLength && i % groupNum !== 0) {
           continue;
         }
-        let markerVal = this.xAxisData[i];
+        let markerVal = this.xAxisData[lastIndex - i];
         markerVal = typeof xAxisFormat === 'function' ? xAxisFormat(markerVal) : markerVal;
-        const posX = this.getPosX(i);
+        const posX = this.getPosX(lastIndex - i);
         const posY = this.chartEndY + (10 * this.dpi);
         this.drawText(markerVal, {
           x: posX,
