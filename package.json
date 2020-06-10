@@ -1,6 +1,6 @@
 {
   "name": "lw-chart",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "A lightweight chart implemented by canvas",
   "homepage": "https://github.com/AD-feiben/lw-chart",
   "main": "./dist/index.common.js",
