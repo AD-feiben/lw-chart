@@ -87,7 +87,7 @@ export interface ICurvePoint {
 export const getCurveList = function (pointList: IPos[]): ICurvePoint[] {
   if (pointList.length <= 0) return [];
   // 长度比例系数
-  const lenParam = 1 / 3;
+  const lenParam = 1 / 5;
   const len = pointList.length;
   return pointList.map((curPoint, index) => {
     const nextPoint = index === len - 1 ? curPoint : pointList[index + 1];
@@ -96,7 +96,7 @@ export const getCurveList = function (pointList: IPos[]): ICurvePoint[] {
     const nextX = nextPoint.x;
     const nextY = nextPoint.y;
     const deltaX = Math.abs(nextX - curX) * lenParam;
-    const deltaY = (nextY - curY) * (lenParam / 2);
+    const deltaY = (nextY - curY) * lenParam;
     return {
       start: curPoint,
       end: nextPoint,

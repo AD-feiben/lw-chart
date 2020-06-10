@@ -109,10 +109,12 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     if (this.xAxisHeight >= 0) {
       const len = this.xAxisData.length;
       const lastIndex = len - 1;
-      let groupNum = len / xAxisLength;
-      groupNum = groupNum < 2 ? 1 : Math.ceil(groupNum);
+      let groupNum = (len - 1) / (xAxisLength - 1);
+      if (groupNum < 2) {
+        groupNum = 1;
+      }
       for (let i = 0; i < len; i++) {
-        if (len > xAxisLength && i % groupNum !== 0) {
+        if (i !== len - 1 && i % groupNum >= 1) {
           continue;
         }
         let markerVal = this.xAxisData[lastIndex - i];

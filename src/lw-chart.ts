@@ -224,10 +224,6 @@ export default abstract class LWChart<T extends LWChartOptions> {
     if (!this.ctx || !this.canvas) return;
     this.ctx.save();
     this.ctx.beginPath();
-    x = this.fixPixel(x);
-    y = this.fixPixel(y);
-    width = this.fixPixel(width);
-    height = this.fixPixel(height);
 
     this.ctx.rect(x, y, width, height);
     if (this.ctx.isPointInPath(this.mousePosition.x, this.mousePosition.y)) {
