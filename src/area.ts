@@ -455,7 +455,7 @@ export default class Area extends Axis<AreaOptions> {
     if (xAxisData) {
       this.options.xAxisData = xAxisData;
     }
-    if (this.yAxisWidth) {
+    if (yAxisData) {
       this.options.yAxisData = yAxisData;
     }
     this.initData();

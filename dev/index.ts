@@ -46,8 +46,6 @@ const config = {
   animationDuration: 500,
   areaDotLineWidth: 0.8,
   areaStartColor: ['rgba(233, 28, 65, 0.3)'],
-  xAxisData,
-  yAxisData,
   drawResult: (ctx, data, chartParameter) => {
     const { dpi, chartRect } = chartParameter;
     ctx.save();
@@ -133,8 +131,6 @@ const newConfig = {
     return data.yAxisVal.toFixed(4) + '%';
   },
   adsorptionLast: true,
-  xAxisData,
-  yAxisData
   // drawResult: function (ctx, data, chartParameter) {
   //   const { dpi, mousePosition, chartRect } = chartParameter;
   //   const { group, xAxisVal, yAxisVal, y } = data;
@@ -162,4 +158,5 @@ const newConfig = {
   // }
 };
 
-const chart = new Area(document.querySelector('.chart') as HTMLElement, config);
+const chart = new Area(document.querySelector('.chart') as HTMLElement, newConfig);
+chart.updateData(xAxisData, yAxisData);
