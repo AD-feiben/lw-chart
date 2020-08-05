@@ -32,15 +32,21 @@ export declare const getVertexPosition: (el: HTMLElement) => {
     left: number;
 };
 export interface ICurvePoint {
-    start: IPos;
-    end: IPos;
+    point: IPos;
     control1: IPos;
     control2: IPos;
 }
+interface IChartArea {
+    left: number;
+    right: number;
+    top: number;
+    bottom: number;
+}
 /** 给原始坐标点添加三次贝塞尔曲线控制点 */
-export declare const getCurveList: (pointList: IPos[]) => ICurvePoint[];
+export declare const getCurveList: (pointList: IPos[], chartArea: IChartArea) => ICurvePoint[];
 /**
  * 三次贝塞尔曲线公式
  * https://bkimg.cdn.bcebos.com/formula/0f72d0377d19fdbb9ec87ea0146a9175.svg
  */
 export declare const curveWithTime: (p0: number, p1: number, p2: number, p3: number, t: number) => number;
+export {};

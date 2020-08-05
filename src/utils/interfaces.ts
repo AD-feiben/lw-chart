@@ -28,12 +28,23 @@ export interface LWChartAxisStyle {
   lineColor?: string;
   /** 坐标轴宽度 */
   lineWidth?: number;
+  /** x坐标轴高度 */
+  lineHeight?: number;
+  /** 切分 x 轴坐标 */
+  splitXAxis?: boolean;
   /** 字体 */
   font?: string;
   /** 字体大小 */
   size?: number;
   /** 字体颜色 */
   color?: string;
+
+  /** splitXAxis 为 true 生效 */
+  lineHeavyColor?: string;
+  /** splitXAxis 为 true 生效，每个点对应 x 轴宽度 */
+  splitXAxisWidth?: number;
+  /** splitXAxis 为 true 生效，每个点对应 x 轴圆角 */
+  splitXAxisRadius?: number;
 }
 
 export interface LWChartTextStyle {
@@ -85,6 +96,8 @@ export interface AxisOptions extends LWChartOptions {
   xAxisLength?: number;
   /** x轴坐标格式化 */
   xAxisFormat?: (val: string) => string;
+  /** 显示 x 轴辅助线 */
+  showXAxisAuxiliaryLine?: boolean;
   /** 显示 y 轴辅助线 */
   showYAxisAuxiliaryLine?: boolean;
   /** y轴宽度 */
@@ -130,6 +143,8 @@ export interface AreaOptions extends AxisOptions {
   areaEndColor?: string[];
   /** 显示数据点 */
   areaShowDot?: boolean;
+  /** 显示选中的数据点 */
+  areaShowActiveDot?: boolean;
   /** 数据点半径 */
   areaDotRadius?: number;
   /** 数据点填充颜色 */
@@ -141,6 +156,15 @@ export interface AreaOptions extends AxisOptions {
   /** 鼠标选中的数据点的样式 */
   areaActiveDotRadius?: number;
   areaActiveDotFillColor?: string[];
+  areaActiveDotStorkColor?: string[];
+  areaActiveDotLineWidth?: number;
+
+  // 选中数据点 X 轴辅助线
+  showActiveXSubLine?: boolean;
+  // 选中数据点 Y 轴辅助线
+  showActiveYSubLine?: boolean;
+  subLineColor?: string;
+  subLineWidth?: number;
 
   /** 显示选中的数据 */
   showResult?: boolean;
@@ -152,4 +176,35 @@ export interface AreaOptions extends AxisOptions {
   showAnimation?: boolean;
   /** 动画执行时间 ms*/
   animationDuration?: number;
+
+  showToolTip?: boolean;
+  toolTipOpt?: IToolTipOption;
+
+  /** 吸附最后的数据 */
+  adsorptionLast?:boolean;
+}
+
+export interface IToolTipOption {
+  width: number;
+  height: number;
+  borderRadius: number;
+  color: string;
+  bgColor: string;
+  /** 字体大小 */
+  size?: number;
+  /** 字体 */
+  font?: string;
+  /** 字体加粗 */
+  weight?: LWChartTextWeight;
+}
+
+export interface IToolTipOptForDraw extends IToolTipOption {
+  text: string;
+  x: number;
+  y: number;
+  chartX: number;
+  chartY: number;
+  chartWidth: number;
+  chartHeight: number;
+  dpi: number;
 }

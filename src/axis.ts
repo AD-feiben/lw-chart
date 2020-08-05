@@ -1,6 +1,7 @@
 import LWChart from './lw-chart';
 import { AxisOptions, LWChartAxisStyle, IObj } from './utils/interfaces';
 import { isInBrowser, formatPadding } from './utils';
+import { fillRoundRect } from './utils/tooltip';
 
 export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
   constructor (el: HTMLElement, options?: T) {
@@ -87,7 +88,7 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     yAxisLength = yAxisLength || 10;
     yAxisLength--;
     const style: LWChartAxisStyle = Object.assign({}, axisStyle);
-    const dpiOpts: Array<keyof LWChartAxisStyle> = ['lineWidth', 'size'];
+    const dpiOpts: Array<keyof LWChartAxisStyle> = ['lineWidth', 'lineHeight', 'size', 'splitXAxisWidth', 'splitXAxisRadius'];
     dpiOpts.map(key => {
       if (typeof style[key] === 'number') {
         let originVal: number = style[key] as number;
@@ -95,11 +96,21 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
       }
     });
 
+    let { splitXAxisRadius, splitXAxisWidth, lineWidth, lineHeight, lineColor, splitXAxis, lineHeavyColor } = style;
+    splitXAxisRadius = splitXAxisRadius || this.formatNumParam(2);
+    splitXAxisWidth = splitXAxisWidth || this.formatNumParam(2);
+    lineWidth = lineWidth || this.formatNumParam(1);
+    lineHeight = lineHeight || this.formatNumParam(1);
+    lineColor = lineColor || '#666';
+    lineHeavyColor = lineHeavyColor || '#666';
+
     // x轴
-    this.drawLine(xAxisPos.startX, xAxisPos.startY, xAxisPos.endX, xAxisPos.endY, style.lineWidth || 1, style.lineColor || '#666');
+    if (this.options.showXAxisAuxiliaryLine && splitXAxis !== true) {
+      this.drawLine(xAxisPos.startX, xAxisPos.startY, xAxisPos.endX, xAxisPos.endY, lineHeight, lineColor);
+    }
     // y轴
     if (this.options.showYAxisAuxiliaryLine) {
-      this.drawLine(yAxisPos.startX, yAxisPos.startY, yAxisPos.endX, yAxisPos.endY, style.lineWidth || 1, style.lineColor || '#666');
+      this.drawLine(yAxisPos.startX, yAxisPos.startY, yAxisPos.endX, yAxisPos.endY, lineWidth, lineColor);
     }
     // 绘制坐标
     this.ctx.save();
@@ -113,14 +124,60 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
       if (groupNum < 2) {
         groupNum = 1;
       }
+
+      const splitXAxisRadiusList = new Array(4).fill(splitXAxisRadius);
+      const splitXAxis = this.options.axisStyle?.splitXAxis;
+
       for (let i = 0; i < len; i++) {
+        // 绘制分割 x 轴
+        let posX = this.getPosX(i) - splitXAxisWidth / 2;
+        if (i === 0) {
+          posX = Math.max(this.getPosX(i), this.chartStartX) - splitXAxisWidth / 2;
+        } else if (i === len) {
+          posX = Math.min(this.getPosX(i), this.chartEndX) - splitXAxisWidth / 2;
+        }
+
         if (i !== len - 1 && i % groupNum >= 1) {
+          if (this.options.axisStyle?.splitXAxis !== true) continue;
+          fillRoundRect(
+            this.ctx,
+            this.getPosX(i) - splitXAxisWidth / 2,
+            xAxisPos.startY,
+            splitXAxisWidth,
+            lineHeight,
+            splitXAxisRadiusList,
+            lineColor
+          );
           continue;
         }
+
+        splitXAxis && fillRoundRect(
+          this.ctx,
+          this.getPosX(i) - splitXAxisWidth / 2,
+          xAxisPos.startY,
+          splitXAxisWidth,
+          lineHeight,
+          splitXAxisRadiusList,
+          lineHeavyColor
+        );
+
         let markerVal = this.xAxisData[lastIndex - i];
         markerVal = typeof xAxisFormat === 'function' ? xAxisFormat(markerVal) : markerVal;
-        const posX = this.getPosX(lastIndex - i);
-        const posY = this.chartEndY + (10 * this.dpi);
+        posX = this.getPosX(lastIndex - i);
+        const posY = this.chartEndY + lineHeight + (10 * this.dpi);
+        this.ctx.font = `normal ${style.size}px ${style.font}`;
+        const textWidth = this.ctx.measureText(markerVal).width;
+        const halfTextWidth = textWidth / 2;
+        /** 边界处理 */
+        if (i === 0) {
+          // x 轴右侧
+          posX = Math.min(posX, this.canvasWidth - halfTextWidth);
+        }
+        if (i === lastIndex) {
+          // x 轴左侧
+          posX = Math.max(posX, halfTextWidth);
+        }
+
         this.drawText(markerVal, {
           x: posX,
           y: posY,
@@ -215,9 +272,14 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
     const defaultAxisStyle: LWChartAxisStyle = {
       lineColor: '#666',
       lineWidth: 1,
+      lineHeight: 1,
       font: 'PingFangSC-Semibold PingFang SC',
       size: 10,
-      color: '#666'
+      color: '#666',
+      splitXAxis: false,
+      lineHeavyColor: '#666',
+      splitXAxisWidth: 2,
+      splitXAxisRadius: 2
     };
     const defaultOpt: AxisOptions = {
       drawDataLength: 7,
@@ -225,6 +287,7 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
       xAxisData: [],
       xAxisLength: 10,
       xAxisFormat: undefined,
+      showXAxisAuxiliaryLine: true,
       showYAxisAuxiliaryLine: true,
       yAxisWidth: 30,
       yAxisData: [],

@@ -6,7 +6,7 @@ export default abstract class LWChart<T extends LWChartOptions> {
     this.el = el;
     this.mergeOptions(options);
     this.createCanvas();
-    this.addMoveHandler();
+    this.addEventHandler();
   }
 
   protected el: HTMLElement;
@@ -31,9 +31,10 @@ export default abstract class LWChart<T extends LWChartOptions> {
   protected titleBarHeight: number = 0;
 
   protected mousePosition: IPos = {
-    x: 0,
-    y: 0
+    x: -1,
+    y: -1
   };
+  protected mouseInCanvas: boolean = false;
 
   public dpi: number = 1;
 
@@ -100,19 +101,29 @@ export default abstract class LWChart<T extends LWChartOptions> {
         };
       }
     }
+    this.mouseInCanvas = true;
     this.onMove();
+  }
+
+  private handleMouseLeaveCanvas () {
+    this.mouseInCanvas = false;
+    this.onMouseLeave();
   }
 
   /**
    * Add mouseMove or touchMove event listener, called inside the init function
    * 添加 mouseMove 或者 touchMove 事件，在 init 函数内调用
    */
-  private addMoveHandler () {
+  private addEventHandler () {
     if (!this.canvas) return;
-    const eventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
-    this.removeMoveHandler();
-    eventTypes.map(eventType => {
+    const moveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
+    const mouseLeaveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchend'] : ['mouseleave'];
+    this.removeEventHandler();
+    moveEventTypes.map(eventType => {
       on(this.canvas, eventType, this.handleMove.bind(this));
+    });
+    mouseLeaveEventTypes.map(eventType => {
+      on(this.canvas, eventType, this.handleMouseLeaveCanvas.bind(this));
     });
   }
 
@@ -120,10 +131,14 @@ export default abstract class LWChart<T extends LWChartOptions> {
    * remove mouseMove or touchMove event listener
    * 移除 mouseMove 或 touchMove 事件监听
    */
-  protected removeMoveHandler () {
-    const eventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
-    eventTypes.map(eventType => {
+  protected removeEventHandler () {
+    const moveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
+    const mouseLeaveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchend'] : ['mouseleave'];
+    moveEventTypes.map(eventType => {
       off(this.canvas, eventType, this.handleMove.bind(this));
+    });
+    mouseLeaveEventTypes.map(eventType => {
+      off(this.canvas, eventType, this.handleMouseLeaveCanvas.bind(this));
     });
   }
 
@@ -190,9 +205,12 @@ export default abstract class LWChart<T extends LWChartOptions> {
    * Draw line
    * 绘制线条
    */
-  protected drawLine (startX: number, startY: number, endX: number, endY: number, lineWidth: number, color: string) {
+  protected drawLine (startX: number, startY: number, endX: number, endY: number, lineWidth: number, color: string, segments?: number[]) {
     if (!this.ctx) return;
     this.ctx.save();
+    if (segments) {
+      this.ctx.setLineDash(segments);
+    }
     this.ctx.fillStyle = color;
     this.ctx.strokeStyle = color;
     this.ctx.lineWidth = lineWidth;
@@ -286,6 +304,8 @@ export default abstract class LWChart<T extends LWChartOptions> {
    * mouseMove 或 touchMove 触发时调用
    */
   protected abstract onMove(): void;
+
+  protected abstract onMouseLeave(): void;
   /**
    * Remove event listeners, timers, etc
    * 移除事件监听、定时器等

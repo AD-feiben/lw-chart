@@ -19,8 +19,7 @@ export const formatPadding = function (padding: number[], dpi: number = 1) {
     tempPadding = tempPadding.concat(padding);
   }
 
-  return tempPadding.map(item => item * dpi);
-
+  return tempPadding.map((item) => item * dpi);
 };
 
 /** 是否安卓系统 */
@@ -77,39 +76,75 @@ export const getVertexPosition = function (el: HTMLElement) {
 };
 
 export interface ICurvePoint {
-  start: IPos;
-  end: IPos;
+  point: IPos;
   control1: IPos;
   control2: IPos;
 }
 
+const splineCurve = (previous: IPos, current: IPos, next: IPos, t: number) => {
+  // Props to Rob Spencer at scaled innovation for his post on splining between points
+  // http://scaledinnovation.com/analytics/splines/aboutSplines.html
+
+  const d01 = Math.sqrt(Math.pow(current.x - previous.x, 2) + Math.pow(current.y - previous.y, 2));
+  const d12 = Math.sqrt(Math.pow(next.x - current.x, 2) + Math.pow(next.y - current.y, 2));
+
+  let s01 = d01 / (d01 + d12);
+  let s12 = d12 / (d01 + d12);
+
+  // If all points are the same, s01 & s02 will be inf
+  s01 = isNaN(s01) ? 0 : s01;
+  s12 = isNaN(s12) ? 0 : s12;
+
+  const fa = t * s01; // scaling factor for triangle Ta
+  const fb = t * s12;
+
+  return {
+    previous: {
+      x: current.x - fa * (next.x - previous.x),
+      y: current.y - fa * (next.y - previous.y)
+    },
+    next: {
+      x: current.x + fb * (next.x - previous.x),
+      y: current.y + fb * (next.y - previous.y)
+    }
+  };
+};
+
+const capControlPoint = (pt: number, min: number, max: number) => {
+  return Math.max(Math.min(pt, max), min);
+};
+
+interface IChartArea {
+  left: number;
+  right: number;
+  top: number;
+  bottom: number;
+}
+
 /** 给原始坐标点添加三次贝塞尔曲线控制点 */
-export const getCurveList = function (pointList: IPos[]): ICurvePoint[] {
+export const getCurveList = function (pointList: IPos[], chartArea: IChartArea): ICurvePoint[] {
   if (pointList.length <= 0) return [];
-  // 长度比例系数
-  const lenParam = 1 / 5;
-  const len = pointList.length;
-  return pointList.map((curPoint, index) => {
+  let prev = pointList[0];
+  const curvePointList: ICurvePoint[] = [];
+
+  for (let index = 0, len = pointList.length; index < len; index++) {
+    const curPoint = pointList[index];
     const nextPoint = index === len - 1 ? curPoint : pointList[index + 1];
-    const curX = curPoint.x;
-    const curY = curPoint.y;
-    const nextX = nextPoint.x;
-    const nextY = nextPoint.y;
-    const deltaX = Math.abs(nextX - curX) * lenParam;
-    const deltaY = (nextY - curY) * lenParam;
-    return {
-      start: curPoint,
-      end: nextPoint,
+    const { previous, next } = splineCurve(prev, curPoint, nextPoint, 0.35);
+    curvePointList.push({
+      point: curPoint,
       control1: {
-        x: curX + deltaX,
-        y: curY + deltaY
+        x: capControlPoint(previous.x, chartArea.left, chartArea.right),
+        y: capControlPoint(previous.y, chartArea.top, chartArea.bottom)
       },
       control2: {
-        x: nextX - deltaX,
-        y: nextY - deltaY
+        x: capControlPoint(next.x, chartArea.left, chartArea.right),
+        y: capControlPoint(next.y, chartArea.top, chartArea.bottom)
       }
-    };
-  });
+    });
+    prev = curPoint;
+  }
+  return curvePointList;
 };
 
 /**
@@ -119,6 +154,5 @@ export const getCurveList = function (pointList: IPos[]): ICurvePoint[] {
 export const curveWithTime = function (p0: number, p1: number, p2: number, p3: number, t: number) {
   if (t > 1) t = 1;
   const k = 1 - t;
-  return (p0 * Math.pow(k, 3)) + (3 * p1 * t * Math.pow(k, 2)) + (3 * p2 * Math.pow(t, 2) * k) + (p3 * Math.pow(t, 3));
+  return p0 * Math.pow(k, 3) + 3 * p1 * t * Math.pow(k, 2) + 3 * p2 * Math.pow(t, 2) * k + p3 * Math.pow(t, 3);
 };
-

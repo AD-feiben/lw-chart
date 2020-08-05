@@ -19,6 +19,7 @@ export default abstract class LWChart<T extends LWChartOptions> {
     protected chartPadding: number[];
     protected titleBarHeight: number;
     protected mousePosition: IPos;
+    protected mouseInCanvas: boolean;
     dpi: number;
     /**
      * Create the Canvas element and mount it inside the el
@@ -30,16 +31,17 @@ export default abstract class LWChart<T extends LWChartOptions> {
      * 处理 mouseMove 或者 touchMove 事件
      */
     private handleMove;
+    private handleMouseLeaveCanvas;
     /**
      * Add mouseMove or touchMove event listener, called inside the init function
      * 添加 mouseMove 或者 touchMove 事件，在 init 函数内调用
      */
-    private addMoveHandler;
+    private addEventHandler;
     /**
      * remove mouseMove or touchMove event listener
      * 移除 mouseMove 或 touchMove 事件监听
      */
-    protected removeMoveHandler(): void;
+    protected removeEventHandler(): void;
     /**
      * Merge options
      * 合并参数
@@ -59,7 +61,7 @@ export default abstract class LWChart<T extends LWChartOptions> {
      * Draw line
      * 绘制线条
      */
-    protected drawLine(startX: number, startY: number, endX: number, endY: number, lineWidth: number, color: string): void;
+    protected drawLine(startX: number, startY: number, endX: number, endY: number, lineWidth: number, color: string, segments?: number[]): void;
     /**
      * Fix pixel blur problem
      * 修复像素模糊问题
@@ -89,6 +91,7 @@ export default abstract class LWChart<T extends LWChartOptions> {
      * mouseMove 或 touchMove 触发时调用
      */
     protected abstract onMove(): void;
+    protected abstract onMouseLeave(): void;
     /**
      * Remove event listeners, timers, etc
      * 移除事件监听、定时器等

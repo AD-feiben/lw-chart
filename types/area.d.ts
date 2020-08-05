@@ -14,9 +14,12 @@ interface ICurveListItem {
 }
 export default class Area extends Axis<AreaOptions> {
     constructor(el: HTMLElement, options?: AreaOptions);
+    private adsorptionLastTimer;
     protected areaLineWidth: number;
     protected areaDotRadius: number;
     protected areaDotLineWidth: number;
+    protected areaActiveDotLineWidth: number;
+    protected subLineWidth: number;
     protected areaActiveDotRadius: number;
     protected pointList: IAreaPos[][];
     protected curveList: ICurveListItem[];
@@ -27,6 +30,7 @@ export default class Area extends Axis<AreaOptions> {
     protected drawResult(): void;
     protected drawDot(): void;
     protected onMove(): void;
+    protected onMouseLeave(): void;
     /**
      *
      * 触发子类钩子函数，合并参数，事件监听，更新数据
@@ -35,6 +39,8 @@ export default class Area extends Axis<AreaOptions> {
      * 需要在实现类的构造函数中调用
      */
     protected init(options?: AreaOptions): void;
+    /** 吸附最后一条数据 */
+    protected adsorptionToLast(): void;
     /**
      * @overwrite
      * 重写合并参数方法，合并该类的特有的参数
