@@ -130,18 +130,20 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
 
       for (let i = 0; i < len; i++) {
         // 绘制分割 x 轴
-        let posX = this.getPosX(i) - splitXAxisWidth / 2;
+        let posX = this.getPosX(lastIndex - i) - splitXAxisWidth / 2;
         if (i === 0) {
-          posX = Math.max(this.getPosX(i), this.chartStartX) - splitXAxisWidth / 2;
+          // 结束坐标
+          posX = Math.min(posX, this.chartEndX - splitXAxisWidth / 2);
         } else if (i === len) {
-          posX = Math.min(this.getPosX(i), this.chartEndX) - splitXAxisWidth / 2;
+          // 起始坐标
+          posX = Math.max(posX, this.chartStartX - splitXAxisWidth / 2);
         }
 
         if (i !== len - 1 && i % groupNum >= 1) {
           if (this.options.axisStyle?.splitXAxis !== true) continue;
           fillRoundRect(
             this.ctx,
-            this.getPosX(i) - splitXAxisWidth / 2,
+            posX,
             xAxisPos.startY,
             splitXAxisWidth,
             lineHeight,
@@ -153,7 +155,7 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
 
         splitXAxis && fillRoundRect(
           this.ctx,
-          this.getPosX(i) - splitXAxisWidth / 2,
+          posX,
           xAxisPos.startY,
           splitXAxisWidth,
           lineHeight,
