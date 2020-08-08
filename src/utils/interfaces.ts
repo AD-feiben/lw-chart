@@ -114,6 +114,8 @@ export interface AxisOptions extends LWChartOptions {
   yAxisFormat?: (val: number) => string;
   /** 坐标轴样式 */
   axisStyle?: LWChartAxisStyle;
+  /** 自定义是否绘制X坐标值 */
+  showXAxisVal?: (val: string) => boolean;
 }
 
 export interface LWChartRect {

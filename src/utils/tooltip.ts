@@ -153,10 +153,17 @@ export const drawToolTip = (ctx: CanvasRenderingContext2D, opt: IToolTipOptForDr
 
   if (edge.left) {
     drawPosX = chartX;
-    edge.top ? radiusLeftTop = 0 : radiusLeftBottom = 0;
   }
+
   if (edge.right) {
     drawPosX = chartX + chartWidth - width;
+  }
+
+  if (x <= chartX) {
+    edge.top ? radiusLeftTop = 0 : radiusLeftBottom = 0;
+  }
+
+  if (x >= chartX + chartWidth) {
     edge.top ? radiusRightTop = 0 : radiusRightBottom = 0;
   }
 

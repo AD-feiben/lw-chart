@@ -127,8 +127,10 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
 
       const splitXAxisRadiusList = new Array(4).fill(splitXAxisRadius);
       const splitXAxis = this.options.axisStyle?.splitXAxis;
+      const showXAxisVal = this.options.showXAxisVal;
 
       for (let i = 0; i < len; i++) {
+
         // 绘制分割 x 轴
         let posX = this.getPosX(lastIndex - i) - splitXAxisWidth / 2;
         if (i === 0) {
@@ -139,7 +141,11 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
           posX = Math.max(posX, this.chartStartX - splitXAxisWidth / 2);
         }
 
-        if (i !== len - 1 && i % groupNum >= 1) {
+        let markerVal = this.xAxisData[lastIndex - i];
+        const skipXAxisValByCustom = showXAxisVal ? !showXAxisVal(markerVal) : true;
+        const skipXAxisValByIndex = i !== len - 1 && i % groupNum >= 1;
+
+        if (showXAxisVal ? skipXAxisValByCustom : skipXAxisValByIndex) {
           if (this.options.axisStyle?.splitXAxis !== true) continue;
           fillRoundRect(
             this.ctx,
@@ -163,7 +169,6 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
           lineHeavyColor
         );
 
-        let markerVal = this.xAxisData[lastIndex - i];
         markerVal = typeof xAxisFormat === 'function' ? xAxisFormat(markerVal) : markerVal;
         posX = this.getPosX(lastIndex - i);
         const posY = this.chartEndY + lineHeight + (10 * this.dpi);
@@ -295,7 +300,8 @@ export default abstract class Axis<T extends AxisOptions> extends LWChart<T> {
       yAxisData: [],
       yAxisLength: 10,
       yAxisFormat: undefined,
-      axisStyle: undefined
+      axisStyle: undefined,
+      showXAxisVal: undefined
     };
 
     this.options = Object.assign({}, defaultOpt, this.options, options);
