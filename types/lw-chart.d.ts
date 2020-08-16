@@ -32,15 +32,21 @@ export default abstract class LWChart<T extends LWChartOptions> {
      */
     private handleMove;
     private handleMouseLeaveCanvas;
+    private handleStart;
+    private startEventHandler;
+    private addStartEventHandler;
+    private removeStartEventHandler;
+    private moveEventHandler;
     /**
      * Add mouseMove or touchMove event listener, called inside the init function
      * 添加 mouseMove 或者 touchMove 事件，在 init 函数内调用
      */
-    private addEventHandler;
+    private addMoveEventHandler;
     /**
      * remove mouseMove or touchMove event listener
      * 移除 mouseMove 或 touchMove 事件监听
      */
+    private removeMoveEventHandler;
     protected removeEventHandler(): void;
     /**
      * Merge options

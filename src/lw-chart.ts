@@ -6,7 +6,7 @@ export default abstract class LWChart<T extends LWChartOptions> {
     this.el = el;
     this.mergeOptions(options);
     this.createCanvas();
-    this.addEventHandler();
+    this.addStartEventHandler();
   }
 
   protected el: HTMLElement;
@@ -108,38 +108,69 @@ export default abstract class LWChart<T extends LWChartOptions> {
   private handleMouseLeaveCanvas () {
     this.mouseInCanvas = false;
     this.onMouseLeave();
+    this.removeMoveEventHandler();
   }
 
+  private handleStart(e: MouseEvent | TouchEvent) {
+    this.handleMove(e);
+    this.addMoveEventHandler();
+  }
+
+  private startEventHandler (eventType: 'on' | 'off') {
+    if (!this.canvas) return;
+    let eventFun = on;
+    if (eventType === 'off') {
+      eventFun = off;
+    }
+    const moveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchstart'] : ['mouseenter'];
+    moveEventTypes.map(eventType => {
+      eventFun(this.canvas, eventType, this.handleStart.bind(this));
+    });
+  }
+
+  private addStartEventHandler () {
+    this.startEventHandler('on');
+  }
+
+  private removeStartEventHandler () {
+    this.startEventHandler('off');
+  }
+
+  private moveEventHandler (eventType: 'on' | 'off') {
+    if (!this.canvas) return;
+    let eventFun = off;
+    if (eventType === 'on') {
+      this.removeMoveEventHandler();
+      eventFun = on;
+    }
+    const moveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
+    const mouseLeaveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchend'] : ['mouseleave'];
+    moveEventTypes.map(eventType => {
+      eventFun(this.canvas, eventType, this.handleMove.bind(this));
+    });
+    mouseLeaveEventTypes.map(eventType => {
+      eventFun(this.canvas, eventType, this.handleMouseLeaveCanvas.bind(this));
+    });
+  }
   /**
    * Add mouseMove or touchMove event listener, called inside the init function
    * 添加 mouseMove 或者 touchMove 事件，在 init 函数内调用
    */
-  private addEventHandler () {
-    if (!this.canvas) return;
-    const moveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
-    const mouseLeaveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchend'] : ['mouseleave'];
-    this.removeEventHandler();
-    moveEventTypes.map(eventType => {
-      on(this.canvas, eventType, this.handleMove.bind(this));
-    });
-    mouseLeaveEventTypes.map(eventType => {
-      on(this.canvas, eventType, this.handleMouseLeaveCanvas.bind(this));
-    });
+  private addMoveEventHandler () {
+    this.moveEventHandler('on');
   }
 
   /**
    * remove mouseMove or touchMove event listener
    * 移除 mouseMove 或 touchMove 事件监听
    */
+  private removeMoveEventHandler () {
+    this.moveEventHandler('off');
+  }
+
   protected removeEventHandler () {
-    const moveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchmove', 'touchend'] : ['mousemove'];
-    const mouseLeaveEventTypes: Array<keyof HTMLElementEventMap> = isMobile ? ['touchend'] : ['mouseleave'];
-    moveEventTypes.map(eventType => {
-      off(this.canvas, eventType, this.handleMove.bind(this));
-    });
-    mouseLeaveEventTypes.map(eventType => {
-      off(this.canvas, eventType, this.handleMouseLeaveCanvas.bind(this));
-    });
+    this.removeStartEventHandler();
+    this.removeMoveEventHandler();
   }
 
 
