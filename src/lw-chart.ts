@@ -6,7 +6,7 @@ export default abstract class LWChart<T extends LWChartOptions> {
     this.el = el;
     this.mergeOptions(options);
     this.createCanvas();
-    this.addEventHandler();
+    this.options.addTouchEvent && this.addEventHandler();
   }
 
   protected el: HTMLElement;
@@ -157,6 +157,7 @@ export default abstract class LWChart<T extends LWChartOptions> {
       chartPadding: [0],
       chartBg: '#fff',
       chartCursor: 'pointer',
+      addTouchEvent: true
     };
     this.options = Object.assign({}, defaultOpt, this.options, options);
 

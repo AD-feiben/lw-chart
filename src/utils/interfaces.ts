@@ -83,6 +83,8 @@ export interface LWChartOptions {
   chartBg?: string;
   /** 鼠标在chart范围的样式 */
   chartCursor?: string;
+  /** chart 触摸事件处理，默认为 true */
+  addTouchEvent?: boolean;
 }
 
 export interface AxisOptions extends LWChartOptions {
